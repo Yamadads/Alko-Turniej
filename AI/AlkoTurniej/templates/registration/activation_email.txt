@@ -6,6 +6,6 @@ Aby aktywować stworzone konto proszę przejdź na stronę podaną w poniższym 
 Jeśli nie zakładałeś konta na naszym serwisie widocznie nastąpiła jakaś pomyłka.
 W takim wypadku zignoruj tą wiadomość.
 
-http://{{ site.domain }}{% url 'registration_activate' activation_key %}
+{{ site }}{% url 'registration_activate' activation_key %}
 
 Link jest aktywny przez {{ expiration_days }} dni.

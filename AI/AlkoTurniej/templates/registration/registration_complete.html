@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load i18n %}
-
+{% block title %}Rejestracja{% endblock %}
 {% block content %}
-<p>{% trans "You are now registered. Activation email sent." %}</p>
+<div class="text-center">
+    <h2>Rejestracja przebiegła pomyślnie</h2>
+
+    <p>Na podany w formularzu adres email wysłaliśmy link aktywacyjny.</p>
+</div>
 {% endblock %}
