@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}AlkoTurniej{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <H2>Dziękujemy za skorzystanie z naszych usług. </H2>
+    <p>
+        Zostałeś poprawnie wylogowany.
+        Aby dalej korzystać ze wszystkich funkcji naszej strony
+        <a href="{% url 'auth_login' %}">zaloguj się ponownie</a>.
+    </p>
+</div>
+{% endblock %}

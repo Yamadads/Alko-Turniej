@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}AlkoTurniej{% endblock %}
+
+{% block content %}
+
+<div>
+    <H1>Zbliżające się turnieje</H1>
+    <table>
+        <tr>
+            <th>Nazwa Turnieju</th>
+            <th>Data</th>
+            <th>Strona Turnieju</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.date }}</td>
+            <td><a href="">+</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
+

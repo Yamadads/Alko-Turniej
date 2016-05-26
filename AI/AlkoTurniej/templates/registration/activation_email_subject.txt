@@ -1,0 +1,2 @@
+{% load i18n %}
+Aktywacja konta na serwisie Alko-Turniej

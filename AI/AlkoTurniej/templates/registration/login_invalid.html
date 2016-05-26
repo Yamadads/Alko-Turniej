@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Logowanie{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+      <div class="bg-success">
+        <div class="text-center">
+          <H1>Logowanie</H1>
+            <p>Logowanie nie powiodło się, popraw dane lub zarejestruj się jeśli nie masz konta</p>
+          <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Email</label>
+                <br>
+                {{ form.email }}
+            </div>
+            <div class="form-group">
+                <label>Hasło</label>
+                <br>
+                {{ form.password }}
+            </div>
+            <input type="submit" value="Zaloguj się" />
+            <input type="hidden" name="next" value="{{ next }}" />
+          </form>
+          <!--<p>Zapomniałeś hasła? <a href="{% url 'auth_password_reset' %}">Przypomnij hasło</a>!</p>-->
+          <p>Nie masz konta? <a href="{% url 'registration_register' %}">Zarejestruj się!</a>!</p>
+        </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

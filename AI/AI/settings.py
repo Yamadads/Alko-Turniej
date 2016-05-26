@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'AlkoTurniej',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -55,7 +56,9 @@ ROOT_URLCONF = 'AI.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, '/templates/'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,4 +121,26 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
+ACCOUNT_ACTIVATION_DAYS=7
+
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'alkoturniej@gmail.com'
+# EMAIL_HOST_PASSWORD = 'SuperP@ss'
+# DEFAULT_FROM_EMAIL = 'alkoturniej@gmail.com'
+# DEFAULT_TO_EMAIL = 'new user'
+
+if DEBUG:
+   EMAIL_HOST = 'localhost'
+   EMAIL_PORT = 1025
+   EMAIL_HOST_USER = ''
+   EMAIL_HOST_PASSWORD = ''
+   EMAIL_USE_TLS = False
+   DEFAULT_FROM_EMAIL = 'testing@example.com'
+
 STATIC_URL = '/static/'
+
+LOGIN_REDIRECT_URL = '/AlkoTurniej'
+
+AUTHENTICATION_BACKENDS = ( 'AlkoTurniej.backend.EmailBackend', )
