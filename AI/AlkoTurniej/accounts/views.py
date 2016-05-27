@@ -11,6 +11,7 @@ from django.conf import settings
 import datetime
 from django.utils import timezone
 
+
 class RegistrationView(View):
     form_class = RegistrationForm
     template_name = 'registration/registration_form.html'
@@ -71,14 +72,10 @@ def send_activation_email(user, site):
                 'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
                 'user': user,
                 'site': site}
-    subject = render_to_string('registration/activation_email_subject.txt',
-                               ctx_dict)
-    # Force subject to a single line to avoid header-injection
-    # issues.
+    subject = render_to_string('registration/activation_email_subject.txt', ctx_dict)
     subject = ''.join(subject.splitlines())
 
-    message = render_to_string('registration/activation_email.txt',
-                               ctx_dict)
+    message = render_to_string('registration/activation_email.txt', ctx_dict)
 
     user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
 

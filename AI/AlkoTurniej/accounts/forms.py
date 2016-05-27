@@ -13,10 +13,14 @@ class LoginForm(forms.ModelForm):
 
 
 class RegistrationForm(UserCreationForm):
-    email = forms.EmailField(widget=forms.TextInput, label="Email")
-    username = forms.CharField(max_length=30, widget=forms.TextInput)
-    first_name = forms.CharField(max_length=30, widget=forms.TextInput)
-    last_name = forms.CharField(max_length=30, widget=forms.TextInput)
+    email = forms.EmailField(widget=forms.TextInput, label="Email", required=True,
+                             error_messages={'required': 'Proszę podaj adres email',
+                                             'unique': 'Ten adres email jest zajęty'})
+    username = forms.CharField(max_length=30, widget=forms.TextInput,
+                               error_messages={'required': 'Proszę podaj swój nick',
+                                               'unique': 'Ten nick jest już zajęty'})
+    first_name = forms.CharField(max_length=30, widget=forms.TextInput, required=True, )
+    last_name = forms.CharField(max_length=30, widget=forms.TextInput, required=True)
     password1 = forms.CharField(widget=forms.PasswordInput, label="Password")
     password2 = forms.CharField(widget=forms.PasswordInput, label="Password (again)")
 
@@ -26,7 +30,7 @@ class RegistrationForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super(RegistrationForm, self).save(commit=False)
-        user.email = self.cleaned_data['email']
+        user.email = self.clean_email['email']
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
         user.is_active = False
@@ -35,3 +39,9 @@ class RegistrationForm(UserCreationForm):
             user.save()
 
         return user
+
+    def clean_email(self):
+        data = self.cleaned_data['email']
+        if User.objects.filter(email=data).exists():
+            raise forms.ValidationError("Ten email jest już w użyciu")
+        return data

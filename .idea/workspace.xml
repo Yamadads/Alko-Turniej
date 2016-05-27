@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b1fb7aca-0bd5-48e6-ad58-2fb9c295d1a3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AI/AlkoTurniej/admin.py" afterPath="$PROJECT_DIR$/AI/AlkoTurniej/admin.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AI/AlkoTurniej/accounts/forms.py" afterPath="$PROJECT_DIR$/AI/AlkoTurniej/accounts/forms.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AI/AlkoTurniej/accounts/views.py" afterPath="$PROJECT_DIR$/AI/AlkoTurniej/accounts/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Alko-Turniej.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,14 +24,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/accounts/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.43396226">
-              <caret line="90" column="33" selection-start-line="90" selection-start-column="33" selection-end-line="90" selection-end-column="33" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="74" column="85" selection-start-line="74" selection-start-column="85" selection-end-line="74" selection-end-column="85" />
               <folding>
                 <element signature="e#0#59#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="forms.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/accounts/forms.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.6289308">
+              <caret line="22" column="85" selection-start-line="22" selection-start-column="85" selection-end-line="22" selection-end-column="85" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -131,7 +140,6 @@
         <option value="$PROJECT_DIR$/AI/AlkoTurniej/backend.py" />
         <option value="$PROJECT_DIR$/AI/AlkoTurniej/accounts/urls_accounts.py" />
         <option value="$PROJECT_DIR$/AI/AI/urls.py" />
-        <option value="$PROJECT_DIR$/AI/AlkoTurniej/accounts/forms.py" />
         <option value="$PROJECT_DIR$/AI/AlkoTurniej/forms.py" />
         <option value="$PROJECT_DIR$/AI/AlkoTurniej/views.py" />
         <option value="$PROJECT_DIR$/AI/AlkoTurniej/urls.py" />
@@ -147,6 +155,7 @@
         <option value="$PROJECT_DIR$/AI/AlkoTurniej/accounts/models.py" />
         <option value="$PROJECT_DIR$/AI/AlkoTurniej/admin.py" />
         <option value="$PROJECT_DIR$/AI/AlkoTurniej/accounts/views.py" />
+        <option value="$PROJECT_DIR$/AI/AlkoTurniej/accounts/forms.py" />
       </list>
     </option>
   </component>
@@ -780,14 +789,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/accounts/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0062894">
-          <caret line="34" column="23" selection-start-line="34" selection-start-column="23" selection-end-line="34" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/templates/registration/password_reset_complete.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0">
@@ -891,11 +892,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/accounts/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43396226">
-          <caret line="90" column="33" selection-start-line="90" selection-start-column="33" selection-end-line="90" selection-end-column="33" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="74" column="85" selection-start-line="74" selection-start-column="85" selection-end-line="74" selection-end-column="85" />
           <folding>
             <element signature="e#0#59#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/accounts/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6289308">
+          <caret line="22" column="85" selection-start-line="22" selection-start-column="85" selection-end-line="22" selection-end-column="85" />
+          <folding />
         </state>
       </provider>
     </entry>
