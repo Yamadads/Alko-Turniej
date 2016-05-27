@@ -9,7 +9,7 @@ from .forms import RegistrationForm, LoginForm
 from .models import UserActivations
 from django.conf import settings
 import datetime
-
+from django.utils import timezone
 
 class RegistrationView(View):
     form_class = RegistrationForm
@@ -66,6 +66,7 @@ def logout_view(request):
 def send_activation_email(user, site):
     activation = UserActivations.objects.create(user=user)
     activation.set_activation_key(user.email)
+    activation.save()
     ctx_dict = {'activation_key': activation.activation_key,
                 'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
                 'user': user,
@@ -85,10 +86,10 @@ def send_activation_email(user, site):
 def activate_view(request, activation_key_link):
     activations = UserActivations.objects.filter(activation_key=activation_key_link).first()
     if activations is not None:
-        print("not none")
         if not activation_expired(activations.user):
             user = activations.user
             user.is_active = True
+            user.save()
             UserActivations.objects.get(activation_key=activation_key_link).delete()
             return render(request, "registration/activation_complete.html")
         activations.user.delete()
@@ -98,4 +99,4 @@ def activate_view(request, activation_key_link):
 
 def activation_expired(user):
     expiration_date = datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS)
-    return (user.date_joined + expiration_date <= datetime.timezone.now())
+    return (user.date_joined + expiration_date <= timezone.now())
