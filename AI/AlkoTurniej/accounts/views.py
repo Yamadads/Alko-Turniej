@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.views.generic import View
-from .forms import RegistrationForm, LoginForm
+from .forms import RegistrationForm, LoginForm, ChangePasswordForm
 from .models import UserActivations
 from django.conf import settings
 import datetime
@@ -97,3 +97,24 @@ def activate_view(request, activation_key_link):
 def activation_expired(user):
     expiration_date = datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS)
     return (user.date_joined + expiration_date <= timezone.now())
+
+class ChangePasswordView(View):
+    form_class = ChangePasswordForm
+    template_name = 'registration/password_change_form.html'
+
+    def get(self, request):
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form': form})
+
+    # def post(self, request):
+    #     form = self.form_class(request.POST)
+    #     username = request.POST['email']
+    #     password = request.POST['password']
+    #     user = authenticate(username=username, password=password)
+    #     if user is not None:
+    #         if user.is_active:
+    #             login(request, user)
+    #             return HttpResponseRedirect(reverse('index'))
+    #         else:
+    #             return render(request, "registration/activate.html")
+    #     return render(request, self.template_invalid_name, {'form': form})

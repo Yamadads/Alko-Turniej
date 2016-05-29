@@ -33,27 +33,27 @@
         {% endif %}
         {{ form.last_name }}
       <p>
-          <label for="id_email">Email address:</label>
+          <label for="id_email">Adres Email:</label>
       </p>
         {% if form.email.errors %}
           <p class="errors">{{ form.email.errors.as_text }}</p>
         {% endif %}
         {{ form.email }}
       <p>
-        <label for="id_password1">Password:</label>
+        <label for="id_password1">Hasło:</label>
       </p>
         {% if form.password1.errors %}
           <p class="errors">{{ form.password1.errors.as_text }}</p>
         {% endif %}
         {{ form.password1 }}
       <p>
-        <label for="id_password2">Confirm Password:</label>
+        <label for="id_password2">Powtórz hasło:</label>
       </p>
         {% if form.password2.errors %}
           <p class="errors">{{ form.password2.errors.as_text }}</p>
         {% endif %}
         {{ form.password2 }}
-            <p class="submit"><input type="submit" value="Register"></p>
+            <p class="submit"><input type="submit" value="Zarejestuj"></p>
     </form>
 
     {% if form.errors %}
