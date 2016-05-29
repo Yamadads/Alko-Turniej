@@ -2,7 +2,57 @@
 {% load i18n %}
 
 {% block title %}Nowy Turniej{% endblock %}
-
+<!--'name', 'branch', 'organizer', 'date', 'location_latitude',-->
+<!--'location_longitude', 'min_participants', 'max_participants', 'deadline']-->
 {% block content %}
-<p>Stwórz nowy turniej</p>
+<div class="container">
+    <div class="text-center">
+        <H1>Stwórz nowy turniej</H1>
+
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Nazwa</label>
+                <br>
+                {{ form.name }}
+            </div>
+            <div class="form-group">
+                <label>Dyscyplina</label>
+                <br>
+                {{ form.branch }}
+            </div>
+            <div class="form-group">
+                <label>Data</label>
+                <br>
+                {{ form.date }}
+            </div>
+            <div class="form-group">
+                <label>latitude</label>
+                <br>
+                {{ form.location_latitude }}
+            </div>
+            <div class="form-group">
+                <label>longitude</label>
+                <br>
+                {{ form.location_longitude }}
+            </div>
+            <div class="form-group">
+                <label>Minimalna liczba urzestników</label>
+                <br>
+                {{ form.min_participants }}
+            </div>
+            <div class="form-group">
+                <label>Maksymalna liczba uczestników</label>
+                <br>
+                {{ form.max_participants }}
+            </div>
+            <div class="form-group">
+                <label>Termin rejestracji</label>
+                <br>
+                {{ form.deadline}}
+            </div>
+            <input type="submit" value="Dodaj turniej"/>
+        </form>
+    </div>
+</div>
 {% endblock %}

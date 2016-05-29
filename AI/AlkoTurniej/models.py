@@ -3,8 +3,8 @@ from django.db import models
 
 
 class Tournament(models.Model):
-    name = models.TextField(null=False)
-    branch = models.TextField(null=False)
+    name = models.CharField(max_length=50, null=False)
+    branch = models.CharField(max_length=50, null=False)
     organizer = models.ForeignKey(User, null=False)
     date = models.DateField(null=False)
     location_latitude = models.FloatField(null=False)
