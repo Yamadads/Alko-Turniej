@@ -11,3 +11,12 @@ class UserActivations(models.Model):
     def set_activation_key(self, email):
         hash_input = (get_random_string(10) + email).encode('utf-8')
         self.activation_key = hashlib.sha1(hash_input).hexdigest()
+
+
+class UserPasswordReset(models.Model):
+    user = models.ForeignKey(User, related_name='user_password_reset', null=False)
+    reset_key = models.CharField(max_length=50, null=False, unique=True)
+
+    def set_reset_key(self, email, password):
+        hash_input = (get_random_string(10) + email + password).encode('utf-8')
+        self.reset_key = hashlib.sha1(hash_input).hexdigest()

@@ -6,11 +6,12 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.views.generic import View
-from .forms import RegistrationForm, LoginForm, ChangePasswordForm
-from .models import UserActivations
+from .forms import RegistrationForm, LoginForm, ChangePasswordForm, ResetPasswordForm, ResetPasswordConfirmForm
+from .models import UserActivations, UserPasswordReset
 from django.conf import settings
 import datetime
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
 class RegistrationView(View):
@@ -124,3 +125,75 @@ class ChangePasswordView(View):
                 return render(request, self.done_template_name)
             return render(request, self.invalid_template_name, {'form': form})
         return render(request, self.form_template_name, {'form': form})
+
+
+class ResetPasswordView(View):
+    form_class = ResetPasswordForm
+    template_name = 'registration/reset_password_form.html'
+
+    def get(self, request):
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            try:
+                user = User.objects.get(email=email)
+            except User.DoesNotExist:
+                user = None
+            if user is not None:
+                current_site = settings.BASE_URL
+                send_reset_email(user, current_site)
+                return render(request, "registration/reset_password_done.html")
+            return render(request, "registration/reset_password_form_invalid.html", {'form': form})
+        return render(request, self.template_name, {'form': form})
+
+
+def send_reset_email(user, site):
+    reset_password = UserPasswordReset.objects.create(user=user)
+    reset_password.set_reset_key(user.email, user.password)
+    reset_password.save()
+    ctx_dict = {'reset_key': reset_password.reset_key,
+                'user': user,
+                'site': site}
+    subject = render_to_string('registration/reset_password_email_subject.txt', ctx_dict)
+    subject = ''.join(subject.splitlines())
+
+    message = render_to_string('registration/reset_password_email.txt', ctx_dict)
+
+    user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
+
+
+class ResetPasswordConfirmView(View):
+    form_class = ResetPasswordConfirmForm
+    reset_template_name = "registration/reset_password_confirm.html"
+    done_template_name = "registration/reset_password_complete.html"
+    invalid_template_name = "registration/reset_password_confirm_invalid.html"
+
+    def get(self, request, reset_key_link):
+        form = self.form_class(None)
+        try:
+            reset_password = UserPasswordReset.objects.get(reset_key=reset_key_link)
+        except UserPasswordReset.DoesNotExist:
+            reset_password = None
+        if reset_password is not None:
+            return render(request, self.reset_template_name, {'form': form})
+        return render(request, self.invalid_template_name)
+
+    def post(self, request, reset_key_link):
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            reset_password = UserPasswordReset.objects.get(reset_key=reset_key_link)
+            if reset_password is not None:
+                user = reset_password.user
+                new_password = form.cleaned_data['new_password1']
+                user.set_password(new_password)
+                user.save()
+                UserPasswordReset.objects.get(reset_key=reset_key_link).delete()
+                return render(request, self.done_template_name)
+            return render(request, self.invalid_template_name)
+        return render(request, self.reset_template_name, {'form': form})
