@@ -1,18 +1,19 @@
 from django.contrib.auth.models import User
 from django.db import models
-
+from geoposition.fields import GeopositionField
 
 class Tournament(models.Model):
-    name = models.CharField(max_length=50, null=False)
-    branch = models.CharField(max_length=50, null=False)
+    name = models.CharField(max_length=50, null=False, error_messages={'required': 'To pole jest wymagane'})
+    branch = models.CharField(max_length=50, null=False, error_messages={'required': 'To pole jest wymagane'})
     organizer = models.ForeignKey(User, null=False)
-    date = models.DateField(null=False)
-    location_latitude = models.FloatField(null=False)
-    location_longitude = models.FloatField(null=False)
-    min_participants = models.IntegerField(null=False)
-    max_participants = models.IntegerField(null=False)
-    deadline = models.DateField(null=False)
+    date = models.DateField(null=False, error_messages={'required': 'To pole jest wymagane'})
+    position = GeopositionField(null=True)
+    min_participants = models.IntegerField(null=False, error_messages={'required': 'To pole jest wymagane'})
+    max_participants = models.IntegerField(null=False, error_messages={'required': 'To pole jest wymagane'})
+    deadline = models.DateField(null=False, error_messages={'required': 'To pole jest wymagane'})
     current_participants = models.IntegerField(null=False, default=0)
+    def getFullInfo(self):
+        return self.name + ", " + self.branch + ", " + self.organizer + ", " + self.date
 
 
 class TournamentParticipant(models.Model):

@@ -3,51 +3,108 @@
 
 {% block title %}Nowy Turniej{% endblock %}
 {% block content %}
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>-->
 <div class="container">
     <div class="text-center">
         <H1>Stwórz nowy turniej</H1>
 
         <form action="" method="post">
             {% csrf_token %}
-            <div class="form-group">
-                <label>Nazwa</label>
-                <br>
-                {{ form.name }}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>Nazwa</label>
+                        <br>
+                        {% if form.name.errors %}
+                        <p class="errors">{{ form.name.errors.as_text }}</p>
+                        {% endif %}
+                        {{ form.name }}
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Dyscyplina</label>
-                <br>
-                {{ form.branch }}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>Dyscyplina</label>
+                        <br>
+                        {% if form.branch.errors %}
+                        <p class="errors">{{ form.branch.errors.as_text }}</p>
+                        {% endif %}
+                        {{ form.branch }}
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Data</label>
-                <br>
-                {{ form.date }}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>Data</label>
+                        <br>
+                        {% if form.date.errors %}
+                        <p class="errors">{{ form.date.errors.as_text }}</p>
+                        {% endif %}
+                        {{ form.date }}
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label>latitude</label>
-                <br>
-                {{ form.location_latitude }}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="id_position_0">Pozycja</label>
+                        <br>
+                        {{ form.media }}
+                        <div class="geoposition-widget" data-map-widget-height="480" data-map-options="{}"
+                             data-marker-options="{}">
+                            <table>
+                                <tr>
+                                    <td>Szerokość:</td>
+                                    <td><input class="geoposition" id="id_position_0" name="position_0" type="text"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Długość:</td>
+                                    <td><input class="geoposition" id="id_position_1" name="position_1" type="text"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label>longitude</label>
-                <br>
-                {{ form.location_longitude }}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>Minimalna liczba urzestników</label>
+                        <br>
+                        {% if form.min_participants.errors %}
+                        <p class="errors">{{ form.min_participants.errors.as_text }}</p>
+                        {% endif %}
+                        {{ form.min_participants }}
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Minimalna liczba urzestników</label>
-                <br>
-                {{ form.min_participants }}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>Maksymalna liczba uczestników</label>
+                        <br>
+                        {% if form.max_participants.errors %}
+                        <p class="errors">{{ form.max_participants.errors.as_text }}</p>
+                        {% endif %}
+                        {{ form.max_participants }}
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Maksymalna liczba uczestników</label>
-                <br>
-                {{ form.max_participants }}
-            </div>
-            <div class="form-group">
-                <label>Termin rejestracji</label>
-                <br>
-                {{ form.deadline}}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>Termin rejestracji</label>
+                        <br>
+                        {% if form.deadline.errors %}
+                        <p class="errors">{{ form.deadline.errors.as_text }}</p>
+                        {% endif %}
+                        {{ form.deadline}}
+                    </div>
+                </div>
             </div>
             <input type="submit" value="Dodaj turniej"/>
         </form>

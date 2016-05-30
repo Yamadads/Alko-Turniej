@@ -31,16 +31,23 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <label>latitude</label>
+                    <label>Organizator</label>
                     <br>
-                    {{ tournament.location_latitude }}
+                    {{ organizer.first_name }} {{ organizer.last_name}}
                 </div>
             </div>
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <label>longitude</label>
+                    <label>Pozycja</label>
                     <br>
-                    {{ tournament.location_longitude }}
+
+                    <div style="width: 100%">
+                        <iframe width="600" height="450" frameborder="0" style="border:0"
+                                src="https://www.google.com/maps/embed/v1/place?q={{ tournament.position.latitude }} {{ tournament.position.longitude }}&key=AIzaSyCDAEXxFJIkhS3oKtHP8NeD4Li2aGflK70"
+                                allowfullscreen></iframe>
+                    </div>
+                    <br/>
+                    {{ tournament.location_latitude }}
                 </div>
             </div>
             <div class="panel panel-default">

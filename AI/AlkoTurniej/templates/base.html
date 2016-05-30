@@ -35,7 +35,8 @@
             </button>
             <a class="navbar-brand" href="{% url 'index' %}">Główna</a>
             {% if user.is_authenticated %}
-            <a class="navbar-brand" href="{% url 'my_tournaments' %}">Moje turnieje</a>
+            <a class="navbar-brand" href="{% url 'my_tournaments_organizer' %}">Organizuję</a>
+            <a class="navbar-brand" href="{% url 'my_tournaments_participant' %}">Uczestniczę</a>
             {% endif %}
 
             <a class="navbar-brand" href="{% url 'new_tournament' %}">Nowy turniej</a>

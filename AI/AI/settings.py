@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'AlkoTurniej',
+    "geoposition",
 ]
 
 MIDDLEWARE_CLASSES = [

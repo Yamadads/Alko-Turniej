@@ -1,10 +1,11 @@
 from django.conf.urls import url
-from .views import index, new_tournament_form, my_tournaments, tournament_site
+from .views import index, NewTournament, my_tournaments_organizer, my_tournaments_participant, tournament_site
 
 urlpatterns = [
     url(r'^AlkoTurniej/$', index, name='index'),
     url(r'^$', index, name='blank'),
-    url(r'^AlkoTurniej/moje_turnieje', my_tournaments, name='my_tournaments'),
-    url(r'^AlkoTurniej/nowy_turniej', new_tournament_form, name='new_tournament'),
+    url(r'^AlkoTurniej/organizuje', my_tournaments_organizer, name='my_tournaments_organizer'),
+    url(r'^AlkoTurniej/uczestnicze', my_tournaments_participant, name='my_tournaments_participant'),
+    url(r'^AlkoTurniej/nowy_turniej', NewTournament.as_view(), name='new_tournament'),
     url(r'^AlkoTurniej/turniej/(?P<tournament_id>[0-9]+)', tournament_site, name='tournament_site'),
 ]
