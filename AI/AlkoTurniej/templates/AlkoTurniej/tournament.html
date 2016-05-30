@@ -1,10 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load i18n %}
 
-</body>
-</html>
+{% block title %}Turniej{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="text-center">
+        <H1>AlkoTurniej</H1>
+
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <label>Nazwa</label>
+                    <br>
+                    {{ tournament.name }}
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <label>Dyscyplina</label>
+                    <br>
+                    {{ tournament.branch }}
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <label>Data</label>
+                    <br>
+                    {{ tournament.date }}
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <label>latitude</label>
+                    <br>
+                    {{ tournament.location_latitude }}
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <label>longitude</label>
+                    <br>
+                    {{ tournament.location_longitude }}
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <label>Minimalna liczba urzestników</label>
+                    <br>
+                    {{ tournament.min_participants }}
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <label>Maksymalna liczba uczestników</label>
+                    <br>
+                    {{ tournament.max_participants }}
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <label>Termin rejestracji</label>
+                    <br>
+                    {{ tournament.deadline}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

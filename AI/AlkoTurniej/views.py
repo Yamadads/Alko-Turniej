@@ -44,3 +44,12 @@ def new_tournament_form(request):
                 pass
     return render_to_response('AlkoTurniej/new_tournament.html', {'form': TournamentForm()},
                               context_instance=RequestContext(request))
+
+def tournament_site(request, tournament_id):
+    try:
+        tournament = Tournament.objects.get(pk=tournament_id)
+        return render(request, "AlkoTurniej/tournament.html", {'tournament':tournament})
+    except:
+        return render(request, "AlkoTurniej/tournament_does_not_exist.html")
+
+
