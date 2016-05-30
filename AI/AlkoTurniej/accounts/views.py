@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.http import HttpResponseRedirect
@@ -59,6 +60,7 @@ class LoginView(View):
         return render(request, self.template_invalid_name, {'form': form})
 
 
+@login_required()
 def logout_view(request):
     logout(request)
     return render(request, "registration/logout.html")
@@ -98,23 +100,27 @@ def activation_expired(user):
     expiration_date = datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS)
     return (user.date_joined + expiration_date <= timezone.now())
 
+
 class ChangePasswordView(View):
     form_class = ChangePasswordForm
-    template_name = 'registration/password_change_form.html'
+    form_template_name = 'registration/change_password_form.html'
+    done_template_name = 'registration/change_password_done.html'
+    invalid_template_name = 'registration/change_password_invalid.html'
 
     def get(self, request):
         form = self.form_class(None)
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.form_template_name, {'form': form})
 
-    # def post(self, request):
-    #     form = self.form_class(request.POST)
-    #     username = request.POST['email']
-    #     password = request.POST['password']
-    #     user = authenticate(username=username, password=password)
-    #     if user is not None:
-    #         if user.is_active:
-    #             login(request, user)
-    #             return HttpResponseRedirect(reverse('index'))
-    #         else:
-    #             return render(request, "registration/activate.html")
-    #     return render(request, self.template_invalid_name, {'form': form})
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                new_password = form.cleaned_data['new_password1']
+                user.set_password(new_password)
+                user.save()
+                return render(request, self.done_template_name)
+            return render(request, self.invalid_template_name, {'form': form})
+        return render(request, self.form_template_name, {'form': form})

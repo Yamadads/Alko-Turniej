@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+
 class ChangePasswordForm(forms.Form):
     email = forms.EmailField(widget=forms.TextInput, label="Email")
     password = forms.CharField(widget=forms.PasswordInput, label="Password")
@@ -10,6 +11,15 @@ class ChangePasswordForm(forms.Form):
 
     class Meta:
         fields = ['email', 'password', 'new_password1', 'new_password2']
+
+    def clean(self):
+        cleaned_data = self.cleaned_data  # individual field's clean methods have already been called
+        new_password1 = cleaned_data.get("new_password1")
+        new_password2 = cleaned_data.get("new_password2")
+        if new_password1 != new_password2:
+            raise forms.ValidationError("Hasło musi być identyczne")
+
+        return cleaned_data
 
 
 class LoginForm(forms.ModelForm):
