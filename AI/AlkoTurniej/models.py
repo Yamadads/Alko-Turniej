@@ -3,14 +3,14 @@ from django.db import models
 from geoposition.fields import GeopositionField
 
 class Tournament(models.Model):
-    name = models.CharField(max_length=50, null=False, error_messages={'required': 'To pole jest wymagane'})
-    branch = models.CharField(max_length=50, null=False, error_messages={'required': 'To pole jest wymagane'})
+    name = models.CharField(max_length=50, null=False)
+    branch = models.CharField(max_length=50, null=False)
     organizer = models.ForeignKey(User, null=False)
-    date = models.DateField(null=False, error_messages={'required': 'To pole jest wymagane'})
-    position = GeopositionField(null=True)
-    min_participants = models.IntegerField(null=False, error_messages={'required': 'To pole jest wymagane'})
-    max_participants = models.IntegerField(null=False, error_messages={'required': 'To pole jest wymagane'})
-    deadline = models.DateField(null=False, error_messages={'required': 'To pole jest wymagane'})
+    date = models.DateField(null=False)
+    position = GeopositionField(blank=True, null=True)
+    min_participants = models.IntegerField(null=False)
+    max_participants = models.IntegerField(null=False)
+    deadline = models.DateField(null=False)
     current_participants = models.IntegerField(null=False, default=0)
     def getFullInfo(self):
         return self.name + ", " + self.branch + ", " + self.organizer + ", " + self.date

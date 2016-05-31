@@ -52,6 +52,9 @@
                         <label for="id_position_0">Pozycja</label>
                         <br>
                         {{ form.media }}
+                        {% if form.position.errors %}
+                        <p class="errors">{{ form.position.errors.as_text }}</p>
+                        {% endif %}
                         <div class="geoposition-widget" data-map-widget-height="480" data-map-options="{}"
                              data-marker-options="{}">
                             <table>

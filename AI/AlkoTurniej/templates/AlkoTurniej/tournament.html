@@ -36,6 +36,7 @@
                     {{ organizer.first_name }} {{ organizer.last_name}}
                 </div>
             </div>
+            {% if tournament.position.latitude %}
             <div class="panel panel-default">
                 <div class="panel-body">
                     <label>Pozycja</label>
@@ -46,10 +47,9 @@
                                 src="https://www.google.com/maps/embed/v1/place?q={{ tournament.position.latitude }} {{ tournament.position.longitude }}&key=AIzaSyCDAEXxFJIkhS3oKtHP8NeD4Li2aGflK70"
                                 allowfullscreen></iframe>
                     </div>
-                    <br/>
-                    {{ tournament.location_latitude }}
                 </div>
             </div>
+            {% endif %}
             <div class="panel panel-default">
                 <div class="panel-body">
                     <label>Minimalna liczba urzestników</label>
