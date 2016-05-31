@@ -7,15 +7,31 @@
 <div class="container">
     <div class="text-center">
         <H1>Zbliżające się turnieje</H1></div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="search" action="" method="post">
+                {% csrf_token %}
+                <div class="text-center">
+                    <label>Szukaj:  </label>
+                    {{ form.text}}
+                    <input type="submit" value="Szukaj"/>
+                </div>
+
+            </form>
+        </div>
+    </div>
     <table class="table">
         <tr>
             <th>Nazwa Turnieju</th>
+            <th>Dyscyplina</th>
             <th>Data</th>
             <th>Strona Turnieju</th>
         </tr>
         {% for item in items %}
         <tr>
             <td>{{ item.name }}</td>
+            <td>{{ item.branch }}</td>
             <td>{{ item.date }}</td>
             <td><a href="{% url 'tournament_site' item.id %}">
                 <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>

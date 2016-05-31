@@ -33,7 +33,11 @@
                 <div class="panel-body">
                     <label>Organizator</label>
                     <br>
-                    {{ organizer.first_name }} {{ organizer.last_name}}
+                    {% if organizer.first_name or organizer.last_name %}
+                        {{ organizer.first_name }} {{ organizer.last_name}}
+                    {% else %}
+                        {{ organizer.username }}
+                    {% endif %}
                 </div>
             </div>
             {% if tournament.position.latitude %}

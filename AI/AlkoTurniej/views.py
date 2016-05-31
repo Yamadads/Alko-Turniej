@@ -6,17 +6,22 @@ from django.template import RequestContext
 from django.template.context_processors import csrf
 from django.views.generic import View
 from .models import Tournament, TournamentParticipant
-from .forms import TournamentForm
+from .forms import TournamentForm, SearchForm
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
 
-def index(request):
-    tournaments = Tournament.objects.order_by("date")
-    return render_to_response("AlkoTurniej/home_page.html", {
-        'user': request.user,
-        'items': tournaments
-    }, RequestContext(request))
+class Index(View):
+    form_class = SearchForm
+
+    def get(self,request):
+        form = self.form_class(None)
+        tournaments = Tournament.objects.order_by("date")
+        return render_to_response("AlkoTurniej/home_page.html", {
+            'user': request.user,
+            'items': tournaments,
+            'form':form
+        }, RequestContext(request))
 
 
 @login_required()

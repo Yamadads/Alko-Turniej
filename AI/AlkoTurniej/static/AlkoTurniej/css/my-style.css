@@ -1,0 +1,7 @@
+form.search #id_text {
+    width: 80%;
+}
+
+form.search input[type=submit] {
+    display: none;
+}

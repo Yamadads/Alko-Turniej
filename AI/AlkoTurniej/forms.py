@@ -29,3 +29,9 @@ class TournamentForm(ModelForm):
             raise forms.ValidationError({'date': ["Nie możesz podać daty z przeszłości", ]})
 
         return cleaned_data
+
+class SearchForm(forms.Form):
+    text = forms.CharField(max_length=150, widget=forms.TextInput, required=False)
+
+    class Meta:
+        fields = ['text']
