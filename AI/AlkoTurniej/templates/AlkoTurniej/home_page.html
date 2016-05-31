@@ -41,6 +41,25 @@
         </tr>
         {% endfor %}
     </table>
+    {% if items.paginator.num_pages > 1 %}
+    <div class="text-center">
+        <div class="pagination">
+            <span class="step-links">
+                {% if items.has_previous %}
+                    <a href="?page={{ citems.previous_page_number }}"><< Poprzednia</a>
+                {% endif %}
+
+                <span class="current">
+                    Strona {{ items.number }} z {{ items.paginator.num_pages }}.
+                </span>
+
+                {% if items.has_next %}
+                    <a href="?page={{ items.next_page_number }}">Następna >></a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
 

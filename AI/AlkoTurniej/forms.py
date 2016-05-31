@@ -1,3 +1,4 @@
+import urllib
 from django.forms import ModelForm
 from django import forms
 from .models import Tournament
@@ -9,7 +10,7 @@ class TournamentForm(ModelForm):
     name = forms.CharField(max_length=50, widget=forms.TextInput, required=True,
                            error_messages={'required': 'To pole jest wymagane'})
     branch = forms.CharField(max_length=50, widget=forms.TextInput, required=True,
-                           error_messages={'required': 'To pole jest wymagane'})
+                             error_messages={'required': 'To pole jest wymagane'})
     date = forms.DateField(widget=SelectDateWidget(empty_label="Nothing"))
     deadline = forms.DateField(widget=SelectDateWidget(empty_label="Nothing"))
     min_participants = forms.IntegerField(error_messages={'required': 'To pole jest wymagane'})
@@ -30,8 +31,12 @@ class TournamentForm(ModelForm):
 
         return cleaned_data
 
+
 class SearchForm(forms.Form):
     text = forms.CharField(max_length=150, widget=forms.TextInput, required=False)
 
     class Meta:
         fields = ['text']
+
+    def as_url_args(self):
+        return urllib.urlencode(self.cleaned_data)

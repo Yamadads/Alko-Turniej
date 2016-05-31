@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -22,9 +23,28 @@ class Index(View):
 
     def get(self, request):
         form = self.form_class(initial={'text': 'Nazwa turnieju ; dyscyplina ; organizator ; data'})
+        if 'search_text' in request.session:
+            search_string = request.session['search_text']
+            form = self.form_class(initial={'text': search_string })
+            array_search = re.split('\s*;\s*', search_string)
+            if len(array_search) > 0:
+                self.tournaments = Tournament.objects.filter(
+                    reduce(and_, [Q(organizer__username__icontains=a) |
+                                  Q(name__icontains=a) |
+                                  Q(branch__icontains=a) |
+                                  Q(date__icontains=a) for a in array_search])
+                ).exclude(date__lte=datetime.date.today())
+        paginator = Paginator(self.tournaments, 10)
+        page = request.GET.get('page')
+        try:
+            tournaments_list = paginator.page(page)
+        except PageNotAnInteger:
+            tournaments_list = paginator.page(1)
+        except EmptyPage:
+            tournaments_list = paginator.page(paginator.num_pages)
         return render_to_response("AlkoTurniej/home_page.html", {
             'user': request.user,
-            'items': self.tournaments,
+            'items': tournaments_list,
             'form': form
         }, RequestContext(request))
 
@@ -33,7 +53,6 @@ class Index(View):
         if form.is_valid():
             search_string = form.cleaned_data['text']
             array_search = re.split('\s*;\s*', search_string)
-            print(array_search)
             if len(array_search) > 0:
                 self.tournaments = Tournament.objects.filter(
                     reduce(and_, [Q(organizer__username__icontains=a) |
@@ -41,9 +60,12 @@ class Index(View):
                                   Q(branch__icontains=a) |
                                   Q(date__icontains=a) for a in array_search])
                 ).exclude(date__lte=datetime.date.today())
+        paginator = Paginator(self.tournaments, 10)
+        tournaments_list = paginator.page(1)
+        request.session['search_text'] = search_string
         return render_to_response("AlkoTurniej/home_page.html", {
             'user': request.user,
-            'items': self.tournaments,
+            'items': tournaments_list,
             'form': form
         }, RequestContext(request))
 
