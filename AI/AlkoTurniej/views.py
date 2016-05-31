@@ -9,18 +9,42 @@ from .models import Tournament, TournamentParticipant
 from .forms import TournamentForm, SearchForm
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+import datetime
+from django.db.models import Q
+from operator import and_, or_
+from functools import reduce
+import re
 
 
 class Index(View):
     form_class = SearchForm
+    tournaments = Tournament.objects.order_by("-date").exclude(date__lte=datetime.date.today())
 
-    def get(self,request):
-        form = self.form_class(None)
-        tournaments = Tournament.objects.order_by("date")
+    def get(self, request):
+        form = self.form_class(initial={'text': 'Nazwa turnieju ; dyscyplina ; organizator ; data'})
         return render_to_response("AlkoTurniej/home_page.html", {
             'user': request.user,
-            'items': tournaments,
-            'form':form
+            'items': self.tournaments,
+            'form': form
+        }, RequestContext(request))
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            search_string = form.cleaned_data['text']
+            array_search = re.split('\s*;\s*', search_string)
+            print(array_search)
+            if len(array_search) > 0:
+                self.tournaments = Tournament.objects.filter(
+                    reduce(and_, [Q(organizer__username__icontains=a) |
+                                  Q(name__icontains=a) |
+                                  Q(branch__icontains=a) |
+                                  Q(date__icontains=a) for a in array_search])
+                ).exclude(date__lte=datetime.date.today())
+        return render_to_response("AlkoTurniej/home_page.html", {
+            'user': request.user,
+            'items': self.tournaments,
+            'form': form
         }, RequestContext(request))
 
 

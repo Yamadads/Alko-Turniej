@@ -13,7 +13,7 @@
             <form class="search" action="" method="post">
                 {% csrf_token %}
                 <div class="text-center">
-                    <label>Szukaj:  </label>
+                    <label>Szukaj: </label>
                     {{ form.text}}
                     <input type="submit" value="Szukaj"/>
                 </div>
@@ -24,15 +24,17 @@
     <table class="table">
         <tr>
             <th>Nazwa Turnieju</th>
-            <th>Dyscyplina</th>
+            <th class="small_screen">Dyscyplina</th>
+            <th class="medium_screen">Organizator</th>
             <th>Data</th>
             <th>Strona Turnieju</th>
         </tr>
         {% for item in items %}
         <tr>
             <td>{{ item.name }}</td>
-            <td>{{ item.branch }}</td>
-            <td>{{ item.date }}</td>
+            <td class="small_screen">{{ item.branch }}</td>
+            <td class="medium_screen">{{ item.organizer.username }}</td>
+            <td>{{ item.date|date:"Y-m-d" }}</td>
             <td><a href="{% url 'tournament_site' item.id %}">
                 <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
             </a></td>

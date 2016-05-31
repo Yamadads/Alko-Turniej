@@ -5,3 +5,23 @@ form.search #id_text {
 form.search input[type=submit] {
     display: none;
 }
+
+@media screen and (max-width: 900px){
+    table.table td.medium_screen{
+	    display: none;
+	}
+
+	table.table th.medium_screen{
+	    display: none;
+	}
+}
+
+@media screen and (max-width: 600px){
+    table.table td.small_screen{
+	    display: none;
+	}
+
+	table.table th.small_screen{
+	    display: none;
+	}
+}
