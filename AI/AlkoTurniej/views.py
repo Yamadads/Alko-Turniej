@@ -19,13 +19,13 @@ import re
 
 class Index(View):
     form_class = SearchForm
-    tournaments = Tournament.objects.order_by("-date").exclude(date__lte=datetime.date.today())
+    tournaments = Tournament.objects.order_by("date").exclude(date__lte=datetime.date.today())
 
     def get(self, request):
         form = self.form_class(initial={'text': 'Nazwa turnieju ; dyscyplina ; organizator ; data'})
         if 'search_text' in request.session:
             search_string = request.session['search_text']
-            form = self.form_class(initial={'text': search_string })
+            form = self.form_class(initial={'text': search_string})
             array_search = re.split('\s*;\s*', search_string)
             if len(array_search) > 0:
                 self.tournaments = Tournament.objects.filter(
@@ -33,7 +33,7 @@ class Index(View):
                                   Q(name__icontains=a) |
                                   Q(branch__icontains=a) |
                                   Q(date__icontains=a) for a in array_search])
-                ).exclude(date__lte=datetime.date.today())
+                ).exclude(date__lte=datetime.date.today()).order_by("date")
         paginator = Paginator(self.tournaments, 10)
         page = request.GET.get('page')
         try:
@@ -59,7 +59,7 @@ class Index(View):
                                   Q(name__icontains=a) |
                                   Q(branch__icontains=a) |
                                   Q(date__icontains=a) for a in array_search])
-                ).exclude(date__lte=datetime.date.today())
+                ).exclude(date__lte=datetime.date.today()).order_by("date")
         paginator = Paginator(self.tournaments, 10)
         tournaments_list = paginator.page(1)
         request.session['search_text'] = search_string
@@ -72,17 +72,48 @@ class Index(View):
 
 @login_required()
 def my_tournaments_organizer(request):
-    tournaments = Tournament.objects.filter(organizer=request.user).order_by("date")
+    tournaments = Tournament.objects.filter(organizer=request.user).order_by("date") \
+        .exclude(date__lte=datetime.date.today())
+    paginator = Paginator(tournaments, 10)
+    page = request.GET.get('page')
+    try:
+        tournaments_list = paginator.page(page)
+    except PageNotAnInteger:
+        tournaments_list = paginator.page(1)
+    except EmptyPage:
+        tournaments_list = paginator.page(paginator.num_pages)
+    history = False
     return render_to_response("AlkoTurniej/my_tournaments_organizer.html", {
         'user': request.user,
-        'items': tournaments
+        'items': tournaments_list,
+        'history': history
+    }, RequestContext(request))
+
+
+@login_required()
+def my_tournaments_organizer_history(request):
+    tournaments = Tournament.objects.filter(organizer=request.user).order_by("date") \
+        .exclude(date__gte=datetime.date.today())
+    paginator = Paginator(tournaments, 10)
+    page = request.GET.get('page')
+    try:
+        tournaments_list = paginator.page(page)
+    except PageNotAnInteger:
+        tournaments_list = paginator.page(1)
+    except EmptyPage:
+        tournaments_list = paginator.page(paginator.num_pages)
+    history = True
+    return render_to_response("AlkoTurniej/my_tournaments_organizer.html", {
+        'user': request.user,
+        'items': tournaments_list,
+        'history': history
     }, RequestContext(request))
 
 
 @login_required()
 def my_tournaments_participant(request):
     user_participant = [i.tournament for i in TournamentParticipant.objects.filter(participant=request.user)]
-    tournaments = Tournament.objects.filter(organizer=request.user).order_by("date")
+    tournaments = Tournament.objects.filter(organizer=request.user).order_by("-date")
     tournaments = [i for i in tournaments if i in user_participant]
     return render_to_response("AlkoTurniej/my_tournaments_participant.html", {
         'user': request.user,
@@ -117,28 +148,24 @@ class NewTournament(View):
         return HttpResponseRedirect(reverse('auth_login'))
 
 
-@login_required()
-def new_tournament_form(request):
-    if request.method == 'POST':
-        form = TournamentForm(request.POST)
-        if form.is_valid():
-            try:
-                form.save()
-                return HttpResponseRedirect('/')
-            except:
-                pass
-    return render_to_response('AlkoTurniej/new_tournament.html', {'form': TournamentForm()},
-                              context_instance=RequestContext(request))
-
-
 def tournament_site(request, tournament_id):
     try:
         tournament = Tournament.objects.get(pk=tournament_id)
         organizer = User.objects.get(username=tournament.organizer)
-        return render(request, "AlkoTurniej/tournament.html",
-                      {
-                          'tournament': tournament,
-                          'organizer': organizer
-                      })
+        if tournament.deadline < datetime.date.today():
+            active = False
+        else:
+            active = True
     except:
         return render(request, "AlkoTurniej/tournament_does_not_exist.html")
+    return render(request, "AlkoTurniej/tournament.html",
+                  {
+                      'tournament': tournament,
+                      'organizer': organizer,
+                      'active': active
+                  })
+
+
+@login_required()
+def tournament_join(request, tournament_id):
+    return render(request, "AlkoTurniej/join_tournament.html")

@@ -4,25 +4,51 @@
 {% block title %}Moje Turnieje{% endblock %}
 
 {% block content %}
-
 <div class="container">
     <div class="text-center">
-        <H1>Organizowane Turnieje</H1></div>
+        {% if history %}
+        <H1>Turnieje z przeszłości</H1>
+        {% else %}
+        <H1>Zbliżające się organizowane przez Ciebie turnieje</H1>
+        {% endif %}
+    </div>
     <table class="table">
         <tr>
             <th>Nazwa Turnieju</th>
+            <th class="small_screen">Dyscyplina</th>
             <th>Data</th>
             <th>Strona Turnieju</th>
         </tr>
         {% for item in items %}
         <tr>
             <td>{{ item.name }}</td>
-            <td>{{ item.date }}</td>
+            <td class="small_screen">{{ item.branch }}</td>
+            <td>{{ item.date|date:"Y-m-d" }}</td>
             <td><a href="{% url 'tournament_site' item.id %}">
                 <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
             </a></td>
         </tr>
         {% endfor %}
     </table>
+    {% if items.paginator.num_pages > 1 %}
+    <div class="text-center">
+        <div class="pagination">
+            <span class="step-links">
+                {% if items.has_previous %}
+                    <a href="?page={{ citems.previous_page_number }}"><< Poprzednia</a>
+                {% endif %}
+
+                <span class="current">
+                    Strona {{ items.number }} z {{ items.paginator.num_pages }}.
+                </span>
+
+                {% if items.has_next %}
+                    <a href="?page={{ items.next_page_number }}">Następna >></a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    {% endif %}
+
 </div>
 {% endblock %}

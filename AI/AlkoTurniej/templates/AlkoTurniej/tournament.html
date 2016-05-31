@@ -34,9 +34,9 @@
                     <label>Organizator</label>
                     <br>
                     {% if organizer.first_name or organizer.last_name %}
-                        {{ organizer.first_name }} {{ organizer.last_name}}
+                    {{ organizer.first_name }} {{ organizer.last_name}}
                     {% else %}
-                        {{ organizer.username }}
+                    {{ organizer.username }}
                     {% endif %}
                 </div>
             </div>
@@ -75,7 +75,15 @@
                     {{ tournament.deadline}}
                 </div>
             </div>
+            {% if active %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a class="button_link" href="{% url 'tournament_join' tournament.id %}">Dołącz do Turnieju</a>
+                </div>
+            </div>
+            {% endif %}
         </div>
+
     </div>
 </div>
 {% endblock %}

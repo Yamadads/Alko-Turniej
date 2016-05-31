@@ -2,8 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b1fb7aca-0bd5-48e6-ad58-2fb9c295d1a3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AI/AlkoTurniej/forms.py" afterPath="$PROJECT_DIR$/AI/AlkoTurniej/forms.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/home_page.html" afterPath="$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/home_page.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/join_tournament.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AI/AlkoTurniej/templates/base.html" afterPath="$PROJECT_DIR$/AI/AlkoTurniej/templates/base.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AI/AlkoTurniej/models.py" afterPath="$PROJECT_DIR$/AI/AlkoTurniej/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AI/AlkoTurniej/static/AlkoTurniej/css/my-style.css" afterPath="$PROJECT_DIR$/AI/AlkoTurniej/static/AlkoTurniej/css/my-style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/my_tournaments_organizer.html" afterPath="$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/my_tournaments_organizer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/tournament.html" afterPath="$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/tournament.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AI/AlkoTurniej/urls.py" afterPath="$PROJECT_DIR$/AI/AlkoTurniej/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AI/AlkoTurniej/views.py" afterPath="$PROJECT_DIR$/AI/AlkoTurniej/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -26,69 +31,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/forms.py">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/models.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="37" column="15" selection-start-line="37" selection-start-column="15" selection-end-line="37" selection-end-column="15" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="my-style.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/static/AlkoTurniej/css/my-style.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="5" column="18" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
+              <caret line="8" column="39" selection-start-line="8" selection-start-column="39" selection-end-line="8" selection-end-column="39" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.017667845">
-              <caret line="29" column="37" selection-start-line="29" selection-start-column="37" selection-end-line="29" selection-end-column="37" />
-              <folding>
-                <element signature="e#0#72#0" expanded="true" />
-                <element signature="e#3250#3498#0" expanded="false" />
-                <element signature="e#3564#3992#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#32#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="home_page.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/home_page.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.125">
-              <caret line="31" column="31" selection-start-line="31" selection-start-column="31" selection-end-line="31" selection-end-column="31" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tournament.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="tournament.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/tournament.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.208333">
-              <caret line="28" column="41" selection-start-line="28" selection-start-column="41" selection-end-line="28" selection-end-column="41" />
+            <state vertical-scroll-proportion="0.6909091">
+              <caret line="76" column="18" selection-start-line="76" selection-start-column="18" selection-end-line="76" selection-end-column="18" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#iframe#0;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
@@ -97,12 +54,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tournament_does_not_exist.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/tournament_does_not_exist.html">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.75">
-              <caret line="6" column="29" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
-              <folding />
+            <state vertical-scroll-proportion="-15.707317">
+              <caret line="163" column="45" selection-start-line="163" selection-start-column="45" selection-end-line="163" selection-end-column="45" />
+              <folding>
+                <element signature="e#0#72#0" expanded="true" />
+                <element signature="e#748#3218#0" expanded="false" />
+                <element signature="e#4713#5142#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -123,7 +84,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/registration/registration_complete.html" />
         <option value="$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/registration/registration_form.html" />
         <option value="$PROJECT_DIR$/AI/AlkoTurniej/my_registration.py" />
         <option value="$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/base.html" />
@@ -160,20 +120,21 @@
         <option value="$PROJECT_DIR$/AI/AlkoTurniej/templates/registration/login_invalid.html" />
         <option value="$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/tournament_does_not_exist.html" />
         <option value="$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/my_tournaments.html" />
-        <option value="$PROJECT_DIR$/AI/AlkoTurniej/templates/base.html" />
-        <option value="$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/my_tournaments_organizer.html" />
         <option value="$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/my_tournaments_participant.html" />
         <option value="$PROJECT_DIR$/AI/AI/settings.py" />
-        <option value="$PROJECT_DIR$/AI/AlkoTurniej/models.py" />
         <option value="$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/new_tournament.html" />
-        <option value="$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/tournament.html" />
-        <option value="$PROJECT_DIR$/AI/AlkoTurniej/static/AlkoTurniej/css/my-style.css" />
         <option value="$PROJECT_DIR$/AI/AlkoTurniej/accounts/views.py" />
         <option value="$PROJECT_DIR$/AI/AlkoTurniej/accounts/forms.py" />
-        <option value="$PROJECT_DIR$/AI/AlkoTurniej/forms.py" />
         <option value="$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/home_page.html" />
+        <option value="$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/my_tournaments_organizer.html" />
+        <option value="$PROJECT_DIR$/AI/AlkoTurniej/templates/base.html" />
+        <option value="$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/tournament_join.html" />
+        <option value="$PROJECT_DIR$/AI/AlkoTurniej/models.py" />
+        <option value="$PROJECT_DIR$/AI/AlkoTurniej/forms.py" />
         <option value="$PROJECT_DIR$/AI/AlkoTurniej/urls.py" />
+        <option value="$PROJECT_DIR$/AI/AlkoTurniej/static/AlkoTurniej/css/my-style.css" />
         <option value="$PROJECT_DIR$/AI/AlkoTurniej/views.py" />
+        <option value="$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/tournament.html" />
       </list>
     </option>
   </component>
@@ -522,16 +483,16 @@
     <layout>
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879817" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25099602" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29482073" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.106575966" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879817" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -553,18 +514,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="5" />
+      <option name="time" value="6" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/templates/registration/registration_form.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="33" column="16" selection-start-line="33" selection-start-column="16" selection-end-line="33" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -811,13 +765,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/templates/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-20.625">
-          <caret line="33" column="46" selection-start-line="33" selection-start-column="46" selection-end-line="33" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AI/AI/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.09893993">
@@ -825,36 +772,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="54" selection-start-line="5" selection-start-column="54" selection-end-line="5" selection-end-column="54" />
-          <folding>
-            <element signature="e#0#43#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/templates/registration/login.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.36363637">
           <caret line="20" column="20" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/my_tournaments_organizer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.16363636">
-          <caret line="9" column="33" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/tournament_does_not_exist.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.75">
-          <caret line="6" column="29" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
           <folding />
         </state>
       </provider>
@@ -878,71 +799,111 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/tournament.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.208333">
-          <caret line="28" column="41" selection-start-line="28" selection-start-column="41" selection-end-line="28" selection-end-column="41" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#iframe#0;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/accounts/forms.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.17667845">
           <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding>
-            <element signature="e#0#24#0" expanded="true" />
+            <element signature="e#0#24#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/my_tournaments_organizer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.16363636">
+          <caret line="9" column="34" selection-start-line="9" selection-start-column="34" selection-end-line="9" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/join_tournament.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.18181819">
+          <caret line="10" column="10" selection-start-line="10" selection-start-column="10" selection-end-line="10" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/home_page.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-18.125">
+          <caret line="42" column="12" selection-start-line="42" selection-start-column="12" selection-end-line="42" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.21201414">
+          <caret line="12" column="99" selection-start-line="12" selection-start-column="99" selection-end-line="12" selection-end-column="99" />
+          <folding>
+            <element signature="e#0#32#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/static/AlkoTurniej/css/my-style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="18" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
+        <state vertical-scroll-proportion="0.5300353">
+          <caret line="30" column="15" selection-start-line="30" selection-start-column="15" selection-end-line="30" selection-end-column="15" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/forms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="37" column="15" selection-start-line="37" selection-start-column="15" selection-end-line="37" selection-end-column="15" />
+        <state vertical-scroll-proportion="0.1590106">
+          <caret line="9" column="79" selection-start-line="9" selection-start-column="79" selection-end-line="9" selection-end-column="79" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/urls.py">
+    <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.3018182">
+          <caret line="55" column="78" selection-start-line="55" selection-start-column="78" selection-end-line="55" selection-end-column="78" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/home_page.html">
+    <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/tournament_does_not_exist.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.125">
-          <caret line="31" column="31" selection-start-line="31" selection-start-column="31" selection-end-line="31" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.10909091">
+          <caret line="6" column="29" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="39" selection-start-line="8" selection-start-column="39" selection-end-line="8" selection-end-column="39" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.017667845">
-          <caret line="29" column="37" selection-start-line="29" selection-start-column="37" selection-end-line="29" selection-end-column="37" />
+        <state vertical-scroll-proportion="-15.707317">
+          <caret line="163" column="45" selection-start-line="163" selection-start-column="45" selection-end-line="163" selection-end-column="45" />
           <folding>
             <element signature="e#0#72#0" expanded="true" />
-            <element signature="e#3250#3498#0" expanded="false" />
-            <element signature="e#3564#3992#0" expanded="false" />
+            <element signature="e#748#3218#0" expanded="false" />
+            <element signature="e#4713#5142#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AI/AlkoTurniej/templates/AlkoTurniej/tournament.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6909091">
+          <caret line="76" column="18" selection-start-line="76" selection-start-column="18" selection-end-line="76" selection-end-column="18" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#iframe#0;n#div#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>

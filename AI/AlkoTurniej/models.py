@@ -3,7 +3,7 @@ from django.db import models
 from geoposition.fields import GeopositionField
 
 class Tournament(models.Model):
-    name = models.CharField(max_length=50, null=False)
+    name = models.CharField(max_length=50, null=False, unique=True)
     branch = models.CharField(max_length=50, null=False)
     organizer = models.ForeignKey(User, null=False)
     date = models.DateField(null=False)
