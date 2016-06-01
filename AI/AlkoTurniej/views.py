@@ -178,7 +178,7 @@ def tournament_join(request, tournament_id):
             status = "ok"
     else:
         status = "wrong_tournament"
-    if TournamentParticipant.objects.get(tournament=tournament_id, participant=request.user):
+    if TournamentParticipant.objects.filter(tournament=tournament_id, participant=request.user).exists():
         status = "already_in"
 
     if request.method == 'GET':
