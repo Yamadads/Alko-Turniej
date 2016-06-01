@@ -15,10 +15,14 @@ class TournamentForm(ModelForm):
     deadline = forms.DateField(widget=SelectDateWidget(empty_label="Nothing"))
     min_participants = forms.IntegerField(error_messages={'required': 'To pole jest wymagane'})
     max_participants = forms.IntegerField(error_messages={'required': 'To pole jest wymagane'})
+    logo1 = forms.ImageField(required=False)
+    logo2 = forms.ImageField(required=False)
+    logo3 = forms.ImageField(required=False)
 
     class Meta:
         model = Tournament
-        fields = ['name', 'branch', 'date', 'position', 'min_participants', 'max_participants', 'deadline']
+        fields = ['name', 'branch', 'date', 'position', 'min_participants', 'max_participants', 'deadline', 'logo1',
+                  'logo3', 'logo3']
 
     def clean(self):
         cleaned_data = self.cleaned_data  # individual field's clean methods have already been called

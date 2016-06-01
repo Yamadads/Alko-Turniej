@@ -5,6 +5,5 @@ from .accounts.models import UserActivations, UserPasswordReset
 admin.site.register(models.TournamentLadder)
 admin.site.register(models.TournamentParticipant)
 admin.site.register(models.Tournament)
-admin.site.register(models.SponsorLogos)
 admin.site.register(UserActivations)
 admin.site.register(UserPasswordReset)

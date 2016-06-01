@@ -82,12 +82,23 @@
                     {{ tournament.deadline}}
                 </div>
             </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <label>Sponsorzy</label>
+                    <br>
+                    <img class="sponsor-image" src="{{ tournament.logo1.url }}">
+                    <img class="sponsor-image" src="{{ tournament.logo2.url }}">
+                    <img class="sponsor-image" src="{{ tournament.logo3.url }}">
+                </div>
+            </div>
             {% if active %}
             <div class="panel panel-default">
                 <div class="panel-body">
                     <a class="button_link" href="{% url 'tournament_join' tournament.id %}">Dołącz do Turnieju</a>
                 </div>
             </div>
+
+
             {% endif %}
         </div>
 

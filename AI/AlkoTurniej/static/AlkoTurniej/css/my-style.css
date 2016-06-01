@@ -37,3 +37,8 @@ form.search input[type=submit] {
     color: white;
     font-weight: bold;
 }
+
+.sponsor-image {
+    width:30%
+}
+

@@ -135,11 +135,14 @@ class NewTournament(View):
         return HttpResponseRedirect(reverse('auth_login'))
 
     def post(self, request):
-        form = self.form_class(request.POST)
+        form = self.form_class(request.POST, request.FILES)
         if request.user.is_authenticated():
             if form.is_valid():
                 tournament = form.save(commit=False)
                 tournament.organizer = request.user
+                # tournament.logo1=request.FILES['logo1']
+                # tournament.logo2=request.FILES['logo2']
+                # tournament.logo3=request.FILES['logo3']
                 tournament.save()
                 return HttpResponseRedirect(reverse('my_tournaments_organizer'))
             return render(request, "AlkoTurniej/new_tournament.html", {

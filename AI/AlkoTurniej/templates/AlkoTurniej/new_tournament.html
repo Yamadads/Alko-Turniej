@@ -8,7 +8,7 @@
     <div class="text-center">
         <H1>Stwórz nowy turniej</H1>
 
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="panel panel-default">
                 <div class="panel-body">
@@ -106,6 +106,26 @@
                         <p class="errors">{{ form.deadline.errors.as_text }}</p>
                         {% endif %}
                         {{ form.deadline}}
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>Loga sponsorów</label>
+                        <br>
+                        {% if form.logo1.errors %}
+                        <p class="errors">{{ form.logo1.errors.as_text }}</p>
+                        {% endif %}
+                        {{ form.logo1}}
+                        {% if form.logo2.errors %}
+                        <p class="errors">{{ form.logo2.errors.as_text }}</p>
+                        {% endif %}
+                        {{ form.logo2}}
+                        {% if form.logo3.errors %}
+                        <p class="errors">{{ form.logo3.errors.as_text }}</p>
+                        {% endif %}
+                        {{ form.logo3}}
                     </div>
                 </div>
             </div>

@@ -13,6 +13,9 @@ class Tournament(models.Model):
     max_participants = models.IntegerField(null=False)
     deadline = models.DateField(null=False)
     current_participants = models.IntegerField(null=False, default=0)
+    logo1 = models.ImageField(upload_to = 'upload/', default = 'default.jpg')
+    logo2 = models.ImageField(upload_to = 'upload/', default = 'default.jpg')
+    logo3 = models.ImageField(upload_to = 'upload/', default = 'default.jpg')
 
     def getFullInfo(self):
         return self.name + ", " + self.branch + ", " + self.organizer + ", " + self.date
@@ -26,12 +29,6 @@ class TournamentParticipant(models.Model):
 
     class Meta:
         unique_together = (('participant', 'tournament'),)
-
-
-class SponsorLogos(models.Model):
-    tournament = models.ForeignKey(Tournament, related_name='sponsor_logos', null=False)
-    picture = models.ImageField()
-
 
 class TournamentLadder(models.Model):
     tournament = models.ForeignKey(Tournament, related_name="ladder", null=False)
