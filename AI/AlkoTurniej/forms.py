@@ -1,7 +1,7 @@
 import urllib
 from django.forms import ModelForm
 from django import forms
-from .models import Tournament
+from .models import Tournament, TournamentParticipant
 from django.forms.extras.widgets import SelectDateWidget
 from datetime import date
 
@@ -40,3 +40,12 @@ class SearchForm(forms.Form):
 
     def as_url_args(self):
         return urllib.urlencode(self.cleaned_data)
+
+
+class TournamentParticipantForm(ModelForm):
+    license_number = forms.IntegerField()
+    ranking_position = forms.IntegerField()
+
+    class Meta:
+        model = TournamentParticipant
+        fields = ['license_number', 'ranking_position']

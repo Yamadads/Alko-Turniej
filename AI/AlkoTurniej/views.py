@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.db import transaction
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -7,7 +8,7 @@ from django.template import RequestContext
 from django.template.context_processors import csrf
 from django.views.generic import View
 from .models import Tournament, TournamentParticipant
-from .forms import TournamentForm, SearchForm
+from .forms import TournamentForm, SearchForm, TournamentParticipantForm
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 import datetime
@@ -166,6 +167,42 @@ def tournament_site(request, tournament_id):
                   })
 
 
+@transaction.atomic
 @login_required()
 def tournament_join(request, tournament_id):
-    return render(request, "AlkoTurniej/join_tournament.html")
+    tournament = Tournament.objects.get(pk=tournament_id)
+    if tournament is not None:
+        if tournament.current_participants >= tournament.max_participants:
+            status = "max_participants"
+        else:
+            status = "ok"
+    else:
+        status = "wrong_tournament"
+
+    if request.method == 'GET':
+        form = TournamentParticipantForm(None)
+        return render(request, "AlkoTurniej/join_tournament.html",
+                      {
+                          'status': status,
+                          'form': form,
+                          'tournament_id': tournament_id
+                      })
+    if request.method == 'POST':
+        if status == "ok":
+            form = TournamentParticipantForm(request.POST)
+            if form.is_valid():
+                license_number = form.cleaned_data["license_number"]
+                ranking_position = form.cleaned_data["ranking_position"]
+                tournament_participants = TournamentParticipant.objects.create(
+                    tournament=Tournament.objects.get(pk=tournament_id),
+                    participant=User.objects.get(username=request.user),
+                    ranking_position=ranking_position,
+                    license_number=license_number)
+                tournament_participants.save()
+                return render(request, "AlkoTurniej/join_success.html")
+        return render(request, "AlkoTurniej/join_tournament.html",
+                      {
+                          'status': status,
+                          'form': form,
+                          'tournament_id': tournament_id
+                      })
