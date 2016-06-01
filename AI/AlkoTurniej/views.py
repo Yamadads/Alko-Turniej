@@ -178,6 +178,8 @@ def tournament_join(request, tournament_id):
             status = "ok"
     else:
         status = "wrong_tournament"
+    if TournamentParticipant.objects.get(tournament=tournament_id, participant=request.user):
+        status = "already_in"
 
     if request.method == 'GET':
         form = TournamentParticipantForm(None)
@@ -199,6 +201,8 @@ def tournament_join(request, tournament_id):
                     ranking_position=ranking_position,
                     license_number=license_number)
                 tournament_participants.save()
+                tournament = Tournament.objects.get(pk=tournament_id)
+                tournament.current_participants = tournament.current_participants + 1
                 return render(request, "AlkoTurniej/join_success.html")
         return render(request, "AlkoTurniej/join_tournament.html",
                       {

@@ -44,6 +44,9 @@
         {% if status == "wrong_tournament" %}
         <p>Wybrany turniej nie istnieje</p>
         {% endif %}
+        {% if status == "already_in" %}
+        <p>Już jesteś zapisany na ten turniej</p>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
