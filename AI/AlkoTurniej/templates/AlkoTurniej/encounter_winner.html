@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Wynik Turnieju{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    {% if state == "win" %}
+    <H2>Gratuluję zwycięstwa</H2>
+    {% endif %}
+    {% if state == "wrong_encounter" %}
+    <H2>Wstawianie wyniku turnieju nie powiodło się</H2>
+    {% endif %}
+    {% if state == "wait" %}
+    <H2>Musisz poczekać na decyzję konkurenta</H2>
+    {% endif %}
+    {% if state == "loss" %}
+    <H2>Przykro nam z powodu twojej porażki</H2>
+    {% endif %}
+    {% if state == "non-compliance" %}
+    <H2>Niestety twój przeciwnik sądzi, że wynik był inny. Zagłosuj jeszcze raz</H2>
+    {% endif %}
+</div>
+{% endblock %}

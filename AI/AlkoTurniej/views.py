@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.template.context_processors import csrf
 from django.views.generic import View
-from .models import Tournament, TournamentParticipant
+from .models import Tournament, TournamentParticipant, Encounter
 from .forms import TournamentForm, SearchForm, TournamentParticipantForm
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -114,8 +114,7 @@ def my_tournaments_organizer_history(request):
 @login_required()
 def my_tournaments_participant(request):
     user_participant = [i.tournament for i in TournamentParticipant.objects.filter(participant=request.user)]
-    tournaments = Tournament.objects.filter(organizer=request.user).order_by("date").exclude(
-        date__lte=datetime.date.today())
+    tournaments = Tournament.objects.order_by("date").filter(date__gte=datetime.date.today())
     tournaments = [i for i in tournaments if i in user_participant]
     paginator = Paginator(tournaments, 10)
     page = request.GET.get('page')
@@ -136,8 +135,7 @@ def my_tournaments_participant(request):
 @login_required()
 def my_tournaments_participant_history(request):
     user_participant = [i.tournament for i in TournamentParticipant.objects.filter(participant=request.user)]
-    tournaments = Tournament.objects.filter(organizer=request.user).order_by("-date").exclude(
-        date__gte=datetime.date.today())
+    tournaments = Tournament.objects.filter(date__lte=datetime.date.today()).order_by("-date")
     tournaments = [i for i in tournaments if i in user_participant]
     paginator = Paginator(tournaments, 10)
     page = request.GET.get('page')
@@ -182,22 +180,37 @@ class NewTournament(View):
         return HttpResponseRedirect(reverse('auth_login'))
 
 
+@transaction.atomic
 def tournament_site(request, tournament_id):
     try:
         tournament = Tournament.objects.get(pk=tournament_id)
-        organizer = User.objects.get(username=tournament.organizer)
-        if tournament.deadline < datetime.date.today():
-            active = False
-        else:
-            active = True
     except:
         return render(request, "AlkoTurniej/tournament_does_not_exist.html")
+    organizer = User.objects.get(username=tournament.organizer)
+    check_active(tournament_id)
+    json_ladder = False
+    if tournament.in_progress:
+        json_ladder = 34
     return render(request, "AlkoTurniej/tournament.html",
                   {
                       'tournament': tournament,
                       'organizer': organizer,
-                      'active': active
+                      'ladder': json_ladder
                   })
+
+
+def check_active(tournament_id):
+    tournament = Tournament.objects.get(pk=tournament_id)
+    if tournament.active:
+        if tournament.deadline < datetime.date.today() or tournament.current_participants == tournament.max_participants:
+            tournament.active = False
+            if tournament.current_participants >= tournament.min_participants:
+                tournament.in_progress = True
+                generate_round(tournament_id)
+            else:
+                tournament.in_progress = False
+                tournament.canceled = True
+            tournament.save()
 
 
 @transaction.atomic
@@ -237,7 +250,8 @@ def tournament_join(request, tournament_id):
                     license_number=license_number)
                 tournament_participants.save()
                 tournament = Tournament.objects.get(pk=tournament_id)
-                tournament.current_participants = tournament.current_participants + 1
+                tournament.current_participants = (tournament.current_participants + 1)
+                tournament.save()
                 return render(request, "AlkoTurniej/join_success.html")
         return render(request, "AlkoTurniej/join_tournament.html",
                       {
@@ -245,3 +259,100 @@ def tournament_join(request, tournament_id):
                           'form': form,
                           'tournament_id': tournament_id
                       })
+
+
+def encounters(request):
+    encounters_list = Encounter.objects.filter(Q(user1=request.user) | Q(user2=request.user))
+    paginator = Paginator(encounters_list, 10)
+    page = request.GET.get('page')
+    try:
+        encounters_list_page = paginator.page(page)
+    except PageNotAnInteger:
+        encounters_list_page = paginator.page(1)
+    except EmptyPage:
+        encounters_list_page = paginator.page(paginator.num_pages)
+    return render(request, "AlkoTurniej/encounters.html",
+                  {
+                      'items': encounters_list_page
+                  })
+
+
+def winner_decision(request, encounter_id, decision):
+    try:
+        encounter = Encounter.objects.get(pk=encounter_id)
+    except:
+        encounter = None
+    if encounter is not None:
+        if request.user == encounter.user1:
+            if decision == '1':
+                encounter.user1_decision_winner = True
+            else:
+                encounter.user1_decision_winner = False
+            if encounter.user2_decision_winner is not None:
+                if (encounter.user2_decision_winner == True) and (encounter.user1_decision_winner == False):
+                    # user2 win
+                    state = "loss"
+                    encounter.winner = encounter.user2
+                elif (encounter.user1_decision_winner == True) and (encounter.user2_decision_winner == False):
+                    # user1 win
+                    state = "win"
+                    encounter.winner = encounter.user1
+                else:
+                    state = "non-compliance"
+                    encounter.user1_decision_winner = None
+                    encounter.user2_decision_winner = None
+            else:
+                state = "wait"
+        if request.user == encounter.user2:
+            if decision == '1':
+                encounter.user2_decision_winner = True
+            else:
+                encounter.user2_decision_winner = False
+            if encounter.user1_decision_winner is not None:
+                if (encounter.user2_decision_winner == True) and (encounter.user1_decision_winner == False):
+                    # user2 win
+                    state = "win"
+                    encounter.winner = encounter.user2
+                elif (encounter.user1_decision_winner == True) and (encounter.user2_decision_winner == False):
+                    # user1 win
+                    state = "loss"
+                    encounter.winner = encounter.user1
+                else:
+                    state = "non-compliance"
+                    encounter.user1_decision_winner = None
+                    encounter.user2_decision_winner = None
+            else:
+                state = "wait"
+        print(encounter.user1_decision_winner)
+        print(encounter.user2_decision_winner)
+        encounter.save()
+        return render(request, "AlkoTurniej/encounter_winner.html",
+                      {
+                          'state': state
+                      })
+    else:
+        return render(request, "AlkoTurniej/encounter_winner.html",
+                      {
+                          'state': "wrong_encounter"
+                      })
+
+
+def generate_round(tournament_id):
+    print("gener")
+    participants = [i.participant for i in
+                    TournamentParticipant.objects.filter(tournament=tournament_id).order_by("ranking_position")]
+    print(participants)
+    for i in range(0, int(len(participants) / 2)):
+        print("e")
+        encounter = Encounter.objects.create(
+            tournament=Tournament.objects.get(pk=tournament_id),
+            round=1,
+            encounter_id=i,
+            user1=User.objects.get(username=participants[i]),
+            user2=User.objects.get(username=participants[(len(participants) - i) - 1])
+        )
+        encounter.save()
+    print("end")
+    tournament = Tournament.objects.get(pk=tournament_id)
+    tournament.active = False
+    tournament.save()

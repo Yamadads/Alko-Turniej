@@ -33,10 +33,10 @@
                 <div class="panel-body">
                     <label>Organizator</label>
                     <br>
-                    {% if organizer.first_name or organizer.last_name %}
-                    {{ organizer.first_name }} {{ organizer.last_name}}
+                    {% if tournament.organizer.first_name or tournament.organizer.last_name %}
+                    {{ tournament.organizer.first_name }} {{ tournament.organizer.last_name}}
                     {% else %}
-                    {{ organizer.username }}
+                    {{ tournament.organizer.username }}
                     {% endif %}
                 </div>
             </div>
@@ -68,7 +68,7 @@
                     {{ tournament.max_participants }}
                 </div>
             </div>
-             <div class="panel panel-default">
+            <div class="panel panel-default">
                 <div class="panel-body">
                     <label>Aktualna liczba uczestników</label>
                     <br>
@@ -91,7 +91,7 @@
                     <img class="sponsor-image" src="{{ tournament.logo3.url }}">
                 </div>
             </div>
-            {% if active %}
+            {% if tournament.active %}
             <div class="panel panel-default">
                 <div class="panel-body">
                     <a class="button_link" href="{% url 'tournament_join' tournament.id %}">Dołącz do Turnieju</a>

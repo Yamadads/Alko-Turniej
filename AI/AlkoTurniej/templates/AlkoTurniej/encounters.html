@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Moje Turnieje{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="text-center">
+        <H1>Twoje pojedynki</H1>
+    </div>
+    <table class="table">
+        <tr>
+            <th>Nazwa Turnieju</th>
+            <th>Data</th>
+            <th>Strona Turnieju</th>
+            <th>Przeciwnik</th>
+            <th>Wynik</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.tournament.name }}</td>
+            <td>{{ item.tournament.date|date:"Y-m-d" }}</td>
+            <td><a href="{% url 'tournament_site' item.tournament.id %}">
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+            </a></td>
+            {% if item.user1 == request.user %}
+            <td>{{ item.user2 }}</td>
+            {% else %}
+            <td>{{ item.user1 }}</td>
+            {% endif %}
+            <td><a href="{% url 'decision' item.id 1 %}">Wygrałem</a></td>
+            <td><a href="{% url 'decision' item.id 2 %}">Przegrałem</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% if items.paginator.num_pages > 1 %}
+    <div class="text-center">
+        <div class="pagination">
+            <span class="step-links">
+                {% if items.has_previous %}
+                    <a href="?page={{ citems.previous_page_number }}"><< Poprzednia</a>
+                {% endif %}
+
+                <span class="current">
+                    Strona {{ items.number }} z {{ items.paginator.num_pages }}.
+                </span>
+
+                {% if items.has_next %}
+                    <a href="?page={{ items.next_page_number }}">Następna >></a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}
