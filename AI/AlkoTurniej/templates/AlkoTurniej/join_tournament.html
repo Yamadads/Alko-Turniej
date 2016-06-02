@@ -38,8 +38,8 @@
             <input type="submit" value="Dołącz"/>
         </form>
         {% endif %}
-        {% if status == "max_participants" %}
-        <p>Zbyt duża licza uczestników</p>
+        {% if status == "not_active" %}
+        <p>Zapisy na ten turniej już nie są możliwe</p>
         {% endif %}
         {% if status == "wrong_tournament" %}
         <p>Wybrany turniej nie istnieje</p>

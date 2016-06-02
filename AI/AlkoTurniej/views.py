@@ -93,7 +93,7 @@ def my_tournaments_organizer(request):
 
 @login_required()
 def my_tournaments_organizer_history(request):
-    tournaments = Tournament.objects.filter(organizer=request.user).order_by("date") \
+    tournaments = Tournament.objects.filter(organizer=request.user).order_by("-date") \
         .exclude(date__gte=datetime.date.today())
     paginator = Paginator(tournaments, 10)
     page = request.GET.get('page')
@@ -114,11 +114,44 @@ def my_tournaments_organizer_history(request):
 @login_required()
 def my_tournaments_participant(request):
     user_participant = [i.tournament for i in TournamentParticipant.objects.filter(participant=request.user)]
-    tournaments = Tournament.objects.filter(organizer=request.user).order_by("-date")
+    tournaments = Tournament.objects.filter(organizer=request.user).order_by("date").exclude(
+        date__lte=datetime.date.today())
     tournaments = [i for i in tournaments if i in user_participant]
+    paginator = Paginator(tournaments, 10)
+    page = request.GET.get('page')
+    try:
+        tournaments_list = paginator.page(page)
+    except PageNotAnInteger:
+        tournaments_list = paginator.page(1)
+    except EmptyPage:
+        tournaments_list = paginator.page(paginator.num_pages)
+    history = False
     return render_to_response("AlkoTurniej/my_tournaments_participant.html", {
         'user': request.user,
-        'items': tournaments
+        'items': tournaments_list,
+        'history': history
+    }, RequestContext(request))
+
+
+@login_required()
+def my_tournaments_participant_history(request):
+    user_participant = [i.tournament for i in TournamentParticipant.objects.filter(participant=request.user)]
+    tournaments = Tournament.objects.filter(organizer=request.user).order_by("-date").exclude(
+        date__gte=datetime.date.today())
+    tournaments = [i for i in tournaments if i in user_participant]
+    paginator = Paginator(tournaments, 10)
+    page = request.GET.get('page')
+    try:
+        tournaments_list = paginator.page(page)
+    except PageNotAnInteger:
+        tournaments_list = paginator.page(1)
+    except EmptyPage:
+        tournaments_list = paginator.page(paginator.num_pages)
+    history = True
+    return render_to_response("AlkoTurniej/my_tournaments_participant.html", {
+        'user': request.user,
+        'items': tournaments_list,
+        'history': history
     }, RequestContext(request))
 
 
@@ -140,9 +173,6 @@ class NewTournament(View):
             if form.is_valid():
                 tournament = form.save(commit=False)
                 tournament.organizer = request.user
-                # tournament.logo1=request.FILES['logo1']
-                # tournament.logo2=request.FILES['logo2']
-                # tournament.logo3=request.FILES['logo3']
                 tournament.save()
                 return HttpResponseRedirect(reverse('my_tournaments_organizer'))
             return render(request, "AlkoTurniej/new_tournament.html", {
@@ -173,17 +203,19 @@ def tournament_site(request, tournament_id):
 @transaction.atomic
 @login_required()
 def tournament_join(request, tournament_id):
-    tournament = Tournament.objects.get(pk=tournament_id)
+    try:
+        tournament = Tournament.objects.get(pk=tournament_id)
+    except:
+        tournament = None
     if tournament is not None:
-        if tournament.current_participants >= tournament.max_participants:
-            status = "max_participants"
-        else:
+        if tournament.current_participants < tournament.max_participants and tournament.active:
             status = "ok"
+        else:
+            status = "not_active"
+        if TournamentParticipant.objects.filter(tournament=tournament_id, participant=request.user).exists():
+            status = "already_in"
     else:
         status = "wrong_tournament"
-    if TournamentParticipant.objects.filter(tournament=tournament_id, participant=request.user).exists():
-        status = "already_in"
-
     if request.method == 'GET':
         form = TournamentParticipantForm(None)
         return render(request, "AlkoTurniej/join_tournament.html",

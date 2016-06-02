@@ -16,7 +16,7 @@ class Tournament(models.Model):
     logo1 = models.ImageField(upload_to = 'upload/', default = 'default.jpg')
     logo2 = models.ImageField(upload_to = 'upload/', default = 'default.jpg')
     logo3 = models.ImageField(upload_to = 'upload/', default = 'default.jpg')
-
+    active = models.BooleanField(null=False, default=True)
     def getFullInfo(self):
         return self.name + ", " + self.branch + ", " + self.organizer + ", " + self.date
 
