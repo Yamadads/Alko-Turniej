@@ -342,6 +342,8 @@ def winner_decision(request, encounter_id, decision):
 def generate_next_encounter(encounter_id):
     encounter = Encounter.objects.get(pk=encounter_id)
     size_of_round = encounter.tournament.current_participants / (2 ^ encounter.round)
+    if size_of_round == 1:
+        return
     enemy_encounter_id = ((size_of_round - encounter.encounter_id) - 1)
     try:
         enemy_encounter = Encounter.objects.get(encounter_id=enemy_encounter_id, round=encounter.round,
@@ -358,7 +360,7 @@ def generate_next_encounter(encounter_id):
             user1=encounter.winner,
             user2=enemy_encounter.winner
         )
-        encounter.save()
+        new_encounter.save()
 
 
 def generate_round(tournament_id):
