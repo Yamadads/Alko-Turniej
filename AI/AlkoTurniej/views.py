@@ -283,67 +283,88 @@ def winner_decision(request, encounter_id, decision):
     except:
         encounter = None
     if encounter is not None:
-        if request.user == encounter.user1:
-            if decision == '1':
-                encounter.user1_decision_winner = True
-            else:
-                encounter.user1_decision_winner = False
-            if encounter.user2_decision_winner is not None:
-                if (encounter.user2_decision_winner == True) and (encounter.user1_decision_winner == False):
-                    # user2 win
-                    state = "loss"
-                    encounter.winner = encounter.user2
-                elif (encounter.user1_decision_winner == True) and (encounter.user2_decision_winner == False):
-                    # user1 win
-                    state = "win"
-                    encounter.winner = encounter.user1
+        if encounter.winner is None:
+            if request.user == encounter.user1:
+                if decision == '1':
+                    encounter.user1_decision_winner = True
                 else:
-                    state = "non-compliance"
-                    encounter.user1_decision_winner = None
-                    encounter.user2_decision_winner = None
-            else:
-                state = "wait"
-        if request.user == encounter.user2:
-            if decision == '1':
-                encounter.user2_decision_winner = True
-            else:
-                encounter.user2_decision_winner = False
-            if encounter.user1_decision_winner is not None:
-                if (encounter.user2_decision_winner == True) and (encounter.user1_decision_winner == False):
-                    # user2 win
-                    state = "win"
-                    encounter.winner = encounter.user2
-                elif (encounter.user1_decision_winner == True) and (encounter.user2_decision_winner == False):
-                    # user1 win
-                    state = "loss"
-                    encounter.winner = encounter.user1
+                    encounter.user1_decision_winner = False
+                if encounter.user2_decision_winner is not None:
+                    if (encounter.user2_decision_winner == True) and (encounter.user1_decision_winner == False):
+                        # user2 win
+                        state = "loss"
+                        encounter.winner = encounter.user2
+                    elif (encounter.user1_decision_winner == True) and (encounter.user2_decision_winner == False):
+                        # user1 win
+                        state = "win"
+                        encounter.winner = encounter.user1
+                    else:
+                        state = "non-compliance"
+                        encounter.user1_decision_winner = None
+                        encounter.user2_decision_winner = None
                 else:
-                    state = "non-compliance"
-                    encounter.user1_decision_winner = None
-                    encounter.user2_decision_winner = None
-            else:
-                state = "wait"
-        print(encounter.user1_decision_winner)
-        print(encounter.user2_decision_winner)
+                    state = "wait"
+            if request.user == encounter.user2:
+                if decision == '1':
+                    encounter.user2_decision_winner = True
+                else:
+                    encounter.user2_decision_winner = False
+                if encounter.user1_decision_winner is not None:
+                    if (encounter.user2_decision_winner == True) and (encounter.user1_decision_winner == False):
+                        # user2 win
+                        state = "win"
+                        encounter.winner = encounter.user2
+                    elif (encounter.user1_decision_winner == True) and (encounter.user2_decision_winner == False):
+                        # user1 win
+                        state = "loss"
+                        encounter.winner = encounter.user1
+                    else:
+                        state = "non-compliance"
+                        encounter.user1_decision_winner = None
+                        encounter.user2_decision_winner = None
+                else:
+                    state = "wait"
+            print(encounter.user1_decision_winner)
+            print(encounter.user2_decision_winner)
+            encounter.save()
+            if (state == "loss") or (state == "win"):
+                generate_next_encounter(encounter_id)
+            return render(request, "AlkoTurniej/encounter_winner.html",
+                          {
+                              'state': state
+                          })
+    return render(request, "AlkoTurniej/encounter_winner.html",
+                  {
+                      'state': "wrong_encounter"
+                  })
+
+
+def generate_next_encounter(encounter_id):
+    encounter = Encounter.objects.get(pk=encounter_id)
+    size_of_round = encounter.tournament.current_participants / (2 ^ encounter.round)
+    enemy_encounter_id = ((size_of_round - encounter.encounter_id) - 1)
+    try:
+        enemy_encounter = Encounter.objects.get(encounter_id=enemy_encounter_id, round=encounter.round,
+                                                tournament=encounter.tournament)
+    except:
+        enemy_encounter = None
+    if enemy_encounter is not None:
+        if enemy_encounter.winner is not None:
+            id = min(enemy_encounter.encounter_id, encounter.encounter_id)
+            new_encounter = Encounter.objects.create(
+            tournament=enemy_encounter.tournament,
+            round=enemy_encounter.round+1,
+            encounter_id=id,
+            user1=encounter.winner,
+            user2=enemy_encounter.winner
+        )
         encounter.save()
-        return render(request, "AlkoTurniej/encounter_winner.html",
-                      {
-                          'state': state
-                      })
-    else:
-        return render(request, "AlkoTurniej/encounter_winner.html",
-                      {
-                          'state': "wrong_encounter"
-                      })
 
 
 def generate_round(tournament_id):
-    print("gener")
     participants = [i.participant for i in
                     TournamentParticipant.objects.filter(tournament=tournament_id).order_by("ranking_position")]
-    print(participants)
     for i in range(0, int(len(participants) / 2)):
-        print("e")
         encounter = Encounter.objects.create(
             tournament=Tournament.objects.get(pk=tournament_id),
             round=1,
@@ -352,7 +373,6 @@ def generate_round(tournament_id):
             user2=User.objects.get(username=participants[(len(participants) - i) - 1])
         )
         encounter.save()
-    print("end")
     tournament = Tournament.objects.get(pk=tournament_id)
     tournament.active = False
     tournament.save()

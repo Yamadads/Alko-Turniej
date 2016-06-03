@@ -45,4 +45,4 @@ class Encounter(models.Model):
     winner = models.ForeignKey(User, null=True, default=None)
 
     class Meta:
-        unique_together = (('tournament', 'round', 'id'))
+        unique_together = (('tournament', 'round', 'encounter_id'))
