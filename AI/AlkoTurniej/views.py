@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db import transaction
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
@@ -16,6 +16,8 @@ from django.db.models import Q
 from operator import and_, or_
 from functools import reduce
 import re
+import json
+from math import log, pow
 
 
 class Index(View):
@@ -187,16 +189,59 @@ def tournament_site(request, tournament_id):
     except:
         return render(request, "AlkoTurniej/tournament_does_not_exist.html")
     organizer = User.objects.get(username=tournament.organizer)
+    if organizer == request.user:
+        can_edit = True
+    else:
+        can_edit = False
     check_active(tournament_id)
     json_ladder = False
     if tournament.in_progress:
-        json_ladder = 34
+        json_ladder = create_json_ladder(tournament_id)
     return render(request, "AlkoTurniej/tournament.html",
                   {
                       'tournament': tournament,
                       'organizer': organizer,
-                      'ladder': json_ladder
+                      'ladder': json_ladder,
+                      'can_edit': can_edit
                   })
+
+
+def create_json_ladder(tournament_id):
+    result_json = []
+    tournament = Tournament.objects.get(pk=tournament_id)
+    tournament_encounters_first_round = Encounter.objects.filter(tournament=tournament_id, round=1)
+    if len(tournament_encounters_first_round) > 0:
+        for r in range(1, (int(log(tournament.current_participants, 2)) + 1)):
+            round = []
+            for i in range(0, int(tournament.current_participants / pow(2, r))):
+                try:
+                    encounter = Encounter.objects.get(tournament=tournament_id, round=r, encounter_id=i)
+                except:
+                    encounter = None
+                if encounter is not None:
+                    data = {"player1": {"name": encounter.user1.first_name + " " + encounter.user1.last_name,
+                                        "id": encounter.user1.id},
+                            "player2": {"name": encounter.user2.first_name + " " + encounter.user2.last_name,
+                                        "id": encounter.user2.id}}
+                else:
+                    data = {"player1": {"name": "----", "id": -1},
+                            "player2": {"name": "----", "id": -1}}
+                round.append(data)
+            result_json.append(round)
+        round = []
+        try:
+            final = Encounter.objects.get(tournament=tournament_id, round=int(log(tournament.current_participants, 2)),
+                                          encounter_id=0)
+        except:
+            final = None
+        data = {"player1": {"name": "----", "id": -1}}
+        if final is not None:
+            if final.winner is not None:
+                data = {"player1": {"name": final.winner.first_name + " " + final.winner.last_name,
+                                    "id": final.winner.id}}
+        round.append(data)
+        result_json.append(round)
+    return result_json  #
 
 
 def check_active(tournament_id):
@@ -262,7 +307,7 @@ def tournament_join(request, tournament_id):
 
 
 def encounters(request):
-    encounters_list = Encounter.objects.filter(Q(user1=request.user) | Q(user2=request.user))
+    encounters_list = Encounter.objects.filter((Q(user1=request.user) | Q(user2=request.user)) & Q(winner=None))
     paginator = Paginator(encounters_list, 10)
     page = request.GET.get('page')
     try:
@@ -324,8 +369,6 @@ def winner_decision(request, encounter_id, decision):
                         encounter.user2_decision_winner = None
                 else:
                     state = "wait"
-            print(encounter.user1_decision_winner)
-            print(encounter.user2_decision_winner)
             encounter.save()
             if (state == "loss") or (state == "win"):
                 generate_next_encounter(encounter_id)
@@ -341,10 +384,16 @@ def winner_decision(request, encounter_id, decision):
 
 def generate_next_encounter(encounter_id):
     encounter = Encounter.objects.get(pk=encounter_id)
-    size_of_round = encounter.tournament.current_participants / (2 ^ encounter.round)
+    size_of_round = encounter.tournament.current_participants / pow(2, encounter.round)
+    print("id")
+    print(encounter.encounter_id)
+    print("size of round")
+    print(size_of_round)
     if size_of_round == 1:
         return
     enemy_encounter_id = ((size_of_round - encounter.encounter_id) - 1)
+    print("id2")
+    print(enemy_encounter_id)
     try:
         enemy_encounter = Encounter.objects.get(encounter_id=enemy_encounter_id, round=encounter.round,
                                                 tournament=encounter.tournament)
@@ -353,14 +402,24 @@ def generate_next_encounter(encounter_id):
     if enemy_encounter is not None:
         if enemy_encounter.winner is not None:
             id = min(enemy_encounter.encounter_id, encounter.encounter_id)
-            new_encounter = Encounter.objects.create(
-            tournament=enemy_encounter.tournament,
-            round=enemy_encounter.round+1,
-            encounter_id=id,
-            user1=encounter.winner,
-            user2=enemy_encounter.winner
-        )
-        new_encounter.save()
+            if enemy_encounter.encounter_id % 2 == 1:
+                new_encounter = Encounter.objects.create(
+                    tournament=enemy_encounter.tournament,
+                    round=enemy_encounter.round + 1,
+                    encounter_id=id,
+                    user1=encounter.winner,
+                    user2=enemy_encounter.winner
+                )
+                new_encounter.save()
+            else:
+                new_encounter = Encounter.objects.create(
+                    tournament=enemy_encounter.tournament,
+                    round=enemy_encounter.round + 1,
+                    encounter_id=id,
+                    user1=enemy_encounter.winner,
+                    user2=encounter.winner
+                )
+                new_encounter.save()
 
 
 def generate_round(tournament_id):
@@ -378,3 +437,24 @@ def generate_round(tournament_id):
     tournament = Tournament.objects.get(pk=tournament_id)
     tournament.active = False
     tournament.save()
+
+
+@login_required
+def edit_tournament(request, tournament_id=None, template_name='AlkoTurniej/edit_tournament.html'):
+    if id:
+        tournament = get_object_or_404(Tournament, pk=tournament_id)
+        if tournament.organizer != request.user:
+            return HttpResponseForbidden()
+    else:
+        tournament = Tournament(author=request.user)
+
+    form = TournamentForm(request.POST or None, instance=tournament)
+    if request.POST:
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('my_tournaments_organizer'))
+
+    return render_to_response(template_name, {
+        'user': request.user,
+        'form': form,
+    }, context_instance=RequestContext(request))

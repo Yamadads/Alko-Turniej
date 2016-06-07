@@ -28,8 +28,10 @@
             {% else %}
             <td>{{ item.user1 }}</td>
             {% endif %}
-            <td><a href="{% url 'decision' item.id 1 %}">Wygrałem</a></td>
-            <td><a href="{% url 'decision' item.id 2 %}">Przegrałem</a></td>
+            <td><a href="{% url 'decision' item.id 1 %}"
+                   onclick="return confirm('Jesteś pewny, że wygrałeś?')">Wygrałem</a></td>
+            <td><a href="{% url 'decision' item.id 2 %}"
+                    onclick="return confirm('Jesteś pewny, że przegrałeś?')">Przegrałem</a></td>
         </tr>
         {% endfor %}
     </table>

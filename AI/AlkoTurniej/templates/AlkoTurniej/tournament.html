@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 {% load i18n %}
-
 {% block title %}Turniej{% endblock %}
+{% block head %}
+
+
+{% endblock %}
 {% block content %}
 <div class="container">
     <div class="text-center">
@@ -91,17 +94,62 @@
                     <img class="sponsor-image" src="{{ tournament.logo3.url }}">
                 </div>
             </div>
+            {% if tournament.in_progress %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <label>Drabinka Turnieju</label>
+
+                    <div class="wrapper">
+                        <div class="brackets">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
             {% if tournament.active %}
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <a class="button_link" href="{% url 'tournament_join' tournament.id %}">Dołącz do Turnieju</a>
+                    <a class="button_link" href="{% url 'tournament_join' tournament.id %}">Dołącz do
+                        Turnieju</a>
                 </div>
             </div>
-
-
+            {% endif %}
+            {% if can_edit %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a class="button_link" href="{% url 'edit_tournament' tournament.id %}">Edytuj Turniej</a>
+                </div>
+            </div>
             {% endif %}
         </div>
-
     </div>
 </div>
+
+{% load staticfiles %}
+<script src="{% static 'AlkoTurniej/js/jquery-1.11.3.js' %}"></script>
+<script src="{% static 'AlkoTurniej/js/brackets.min.js' %}"></script>
+
+
+<script>
+
+    var rounds = {{ ladder|safe }};
+    var titles = ['Ronda 1', 'Ronda 2'];
+
+    ;(function($){
+
+        $(".brackets").brackets({
+            titles: titles,
+            rounds: rounds,
+            color_title: 'black',
+            border_color: '#00F',
+            color_player: 'black',
+            bg_player: 'white',
+            color_player_hover: 'white',
+            bg_player_hover: 'blue',
+            border_radius_player: '10px',
+            border_radius_lines: '10px',
+        });
+
+    })(jQuery);
+</script>
 {% endblock %}

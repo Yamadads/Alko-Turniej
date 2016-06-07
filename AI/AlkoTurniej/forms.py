@@ -33,6 +33,21 @@ class TournamentForm(ModelForm):
         if date < date.today():
             raise forms.ValidationError({'date': ["Nie możesz podać daty z przeszłości", ]})
 
+        min = cleaned_data.get("min_participants")
+        max = cleaned_data.get("max_participants")
+        if min > 1:
+            if ((min & (min - 1)) != 0):
+                raise forms.ValidationError({'min_participants': ["Liczba musi być potęgą dwójki", ]})
+        else:
+            raise forms.ValidationError({'min_participants': ["Liczba musi być większa niż 1", ]})
+        if max > 1:
+            if ((max & (max - 1)) != 0):
+                raise forms.ValidationError({'max_participants': ["Liczba musi być potęgą dwójki", ]})
+        else:
+            raise forms.ValidationError({'max_participants': ["Liczba musi być większa niż 1", ]})
+        if min>max:
+            raise forms.ValidationError({'max_participants': ["Maksymalna liczba nie może być mniejsza od minimalnej", ]})
+            raise forms.ValidationError({'max_participants': ["Minimalna liczba nie może być większa od maksymalnej", ]})
         return cleaned_data
 
 

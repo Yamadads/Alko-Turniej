@@ -27,11 +27,11 @@ class Tournament(models.Model):
 class TournamentParticipant(models.Model):
     participant = models.ForeignKey(User, null=False)
     tournament = models.ForeignKey(Tournament, null=False)
-    license_number = models.IntegerField(unique=True, null=False)
-    ranking_position = models.IntegerField(unique=True, null=False)
+    license_number = models.IntegerField(null=False)
+    ranking_position = models.IntegerField(null=False)
 
     class Meta:
-        unique_together = (('participant', 'tournament'),)
+        unique_together = (('participant', 'tournament', 'license_number', 'ranking_position'),)
 
 
 class Encounter(models.Model):
